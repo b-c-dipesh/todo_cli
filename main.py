@@ -25,6 +25,7 @@ def help():
     help_table.align = "l"
 
     help_table.add_row(["help", "See this table of commands."])
+    help_table.add_row(["create-todo", "Create a todo item."])
     help_table.add_row(
         ["list-todos", "List all the available todos from your todo list."])
     help_table.add_row(["update-todo", "Update a todo item."])
