@@ -13,7 +13,7 @@ Created with Python 3.10.5, click_shell and prettytable.
 
 ![Help menu](app_screenshots/help_menu.png)
 
-### Create Todo
+### Create and List Todo
 
 ![Create Todo](app_screenshots/create_todo.png)
 
