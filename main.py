@@ -34,6 +34,40 @@ def help():
     print(help_table)
 
 
+@todos.command()
+def create_todo():
+    todo = None
+
+    while True:
+        todo = input("Enter your todo item: ").strip()
+
+        if not bool(todo):
+            continue
+        break
+
+    cur.execute("INSERT INTO Todos (todo_item, date) VALUES (?, ?)",
+                (todo, date.today()))
+    conn.commit()
+    print("Todo item successfully added to your todo list.")
+
+
+@todos.command()
+def list_todos():
+    cur.execute("SELECT * FROM Todos")
+    todos = cur.fetchall()
+
+    if len(todos) == 0:
+        print("There are no available todos in your todo list. Use the create-todo command to add a todo item to your list.")
+    else:
+        todos_table = PrettyTable(["Date", "Todo Item"])
+        todos_table.align = "l"
+
+        for todo_item in todos:
+            todos_table.add_row([todo_item[3], todo_item[1]])
+
+        print(todos_table)
+
+
 if __name__ == "__main__":
     todos()
     conn.commit()
