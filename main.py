@@ -59,13 +59,46 @@ def list_todos():
     if len(todos) == 0:
         print("There are no available todos in your todo list. Use the create-todo command to add a todo item to your list.")
     else:
-        todos_table = PrettyTable(["Date", "Todo Item"])
+        todos_table = PrettyTable(["Id", "Date", "Todo Item"])
         todos_table.align = "l"
 
         for todo_item in todos:
-            todos_table.add_row([todo_item[3], todo_item[1]])
+            todos_table.add_row([todo_item[0], todo_item[3], todo_item[1]])
 
         print(todos_table)
+
+
+@todos.command()
+def update_todo():
+    todo_id = None
+
+    while True:
+        try:
+            todo_id = int(input("Enter the Todo Id: "))
+            break
+        except:
+            print("Please input a number for the Todo Id")
+            continue
+
+    cur.execute("SELECT * from Todos WHERE id = ?", (todo_id, ))
+    todo_item = cur.fetchone()
+
+    if todo_item is None:
+        print(f"There is no Todo item with the id of {todo_id}.")
+    else:
+        updated_todo = None
+
+        while True:
+            updated_todo = input("Enter your new todo item: ").strip()
+
+            if not bool(updated_todo):
+                continue
+            break
+
+        cur.execute("UPDATE Todos SET todo_item = ?, date = ? WHERE id = ?",
+                    (updated_todo, date.today(), todo_id))
+        conn.commit()
+        print(f"Successfully updated Todo with the Id of {todo_id}.")
 
 
 if __name__ == "__main__":
