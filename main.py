@@ -48,7 +48,7 @@ def create_todo():
     cur.execute("INSERT INTO Todos (todo_item, date) VALUES (?, ?)",
                 (todo, date.today()))
     conn.commit()
-    print("Todo item successfully added to your todo list.")
+    print("Todo successfully created.")
 
 
 @todos.command()
@@ -98,7 +98,24 @@ def update_todo():
         cur.execute("UPDATE Todos SET todo_item = ?, date = ? WHERE id = ?",
                     (updated_todo, date.today(), todo_id))
         conn.commit()
-        print(f"Successfully updated Todo with the Id of {todo_id}.")
+        print("Todo successfully updated.")
+
+
+@todos.command()
+def delete_todo():
+    todo_id = None
+
+    while True:
+        try:
+            todo_id = int(input("Enter the Todo Id: "))
+            break
+        except:
+            print("Please input a number for the Todo Id")
+            continue
+
+    cur.execute("DELETE FROM Todos WHERE id = ?", (todo_id, ))
+    conn.commit()
+    print("Todo successfully deleted.")
 
 
 if __name__ == "__main__":
